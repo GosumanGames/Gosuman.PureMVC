@@ -1,0 +1,11 @@
+{
+  "name": "dk.gosuman.puremvc",
+  "version": "1.0.0",
+  "description": "A version of the PureMVC multicore framework made for Unity.",
+  "displayName": "PureMVC",
+  "author": {
+    "name": "Gosuman Aps",
+    "email": "fehaar@gosuman.dk",
+    "url": "https://gosuman.dk/"
+  }
+}

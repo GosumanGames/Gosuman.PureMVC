@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<PackageId>Gosmnan.PureMVC</PackageId>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Version>2.2.0</Version>
+		<Description>PureMVC is a lightweight framework for creating applications based upon the classic Model-View-Controller design meta-pattern.</Description>
+		<Copyright>Copyright © 2025 Thomas Gravgaard, Gosuman ApS.</Copyright>
+		<license>Creative Commons Attribution 3.0</license>
+		<PackageIconUrl>http://puremvc.org/images/puremvc-logo.png</PackageIconUrl>
+		<RepositoryType>Git</RepositoryType>
+		<Authors>Thomas Gravgaard</Authors>
+		<Company>Gosuman ApS</Company>
+		<PackageTags>Gosuman PureMVC Multicore MVC</PackageTags>
+		<AssemblyVersion>2.3.0.0</AssemblyVersion>
+		<FileVersion>2.3.0.0</FileVersion>
+		<NeutralLanguage>en-US</NeutralLanguage>
+	</PropertyGroup>
+</Project>
