@@ -53,3 +53,8 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# NCrunch
+.ncrunch*
+*.ncrunchsolution*
+*.ncrunchsolution.user
