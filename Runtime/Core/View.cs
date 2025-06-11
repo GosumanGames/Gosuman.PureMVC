@@ -97,6 +97,9 @@ namespace PureMVC.Core
             }
         }
 
+        private bool notificationInProgress;
+        private readonly Queue<INotification> notificationQueue = new Queue<INotification>();
+
         /// <summary>
         /// Notify the <c>IObservers</c> for a particular <c>INotification</c>.
         /// </summary>
@@ -110,6 +113,14 @@ namespace PureMVC.Core
         /// <param name="notification"></param>
         public virtual void NotifyObservers(INotification notification)
         {
+            // NOTE: This is not thread safe, but since Unity is single-threaded, we can assume that only one thread will be calling this method at a time.
+            if (notificationInProgress)
+            {
+                notificationQueue.Enqueue(notification);
+                return;
+            }
+            notificationInProgress = true;
+
             // Get a reference to the observers list for this notification name
             if (observerMap.TryGetValue(notification.Name, out var observersRef))
             {
@@ -120,6 +131,12 @@ namespace PureMVC.Core
                 {
                     observer.NotifyObserver(notification);
                 }
+            }
+
+            notificationInProgress = false;
+            if (notificationQueue.TryDequeue(out INotification? result))
+            {
+                NotifyObservers(result);
             }
         }
 
