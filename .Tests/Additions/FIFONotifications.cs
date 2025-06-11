@@ -59,7 +59,8 @@ public class FIFONotifications
     public void NotificationsOnMediators()
     {
         // Arrange
-        var facade = Facade.GetInstance("FIFOFacade", key => new Facade(key));
+        var coreName = $"FIFOFacade_{Guid.NewGuid()}";
+        var facade = Facade.GetInstance(coreName, key => new Facade(key));
         var notificationQueue = new Queue<string>();
         facade.RegisterMediator(new TestMediator(NOTIFICATION1, () => notificationQueue.Enqueue("Mediator1"), NOTIFICATION2));
         facade.RegisterMediator(new TestMediator(NOTIFICATION2, () => notificationQueue.Enqueue("Mediator2"), string.Empty));
@@ -67,10 +68,13 @@ public class FIFONotifications
 
         // Act
         facade.SendNotification("Notification1");
+
         // Assert
         notificationQueue.Count.Should().Be(3, "Both commands should have been executed in order.");
         notificationQueue.Dequeue().Should().Be("Mediator1", "First notification should be handled by Mediator1.");
         notificationQueue.Dequeue().Should().Be("Mediator2", "Second notification should be handled by Mediator2.");
         notificationQueue.Dequeue().Should().Be("Command", "Command should be executed after both Mediators have handled their notifications.");
+
+        Facade.RemoveCore(coreName);
     }
 }
