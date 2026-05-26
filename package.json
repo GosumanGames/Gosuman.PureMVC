@@ -1,6 +1,6 @@
 {
   "name": "dk.gosuman.puremvc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A version of the PureMVC multicore framework made for Unity.",
   "displayName": "PureMVC",
   "author": {
