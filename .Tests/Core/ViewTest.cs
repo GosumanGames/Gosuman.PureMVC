@@ -422,6 +422,24 @@ namespace PureMVC.Core
         }
 
         /// <summary>
+        /// Tests that an exception thrown by an Observer still propagates out of
+        /// NotifyObservers when running outside Unity (e.g. on the server), since
+        /// the log-and-continue guard only applies to Unity builds.
+        /// </summary>
+        [TestMethod]
+        public void TestExceptionInObserverPropagatesOutsideUnity()
+        {
+            var view = View.GetInstance("ViewTestKey12", key => new View(key));
+            var secondObserverCalled = false;
+
+            view.RegisterObserver(NOTE1, new Observer(_ => throw new InvalidOperationException("boom"), this));
+            view.RegisterObserver(NOTE1, new Observer(_ => secondObserverCalled = true, this));
+
+            Assert.ThrowsException<InvalidOperationException>(() => view.NotifyObservers(new Notification(NOTE1)));
+            Assert.IsFalse(secondObserverCalled, "Expecting the second observer not to run once the exception has propagated");
+        }
+
+        /// <summary>
         /// Tests the multiton instances
         /// </summary>
         [TestMethod]
