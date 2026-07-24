@@ -129,7 +129,21 @@ namespace PureMVC.Core
                 var observers = new List<IObserver>(observersRef);
                 foreach (var observer in observers)
                 {
+#if UNITY_5_3_OR_NEWER
+                    // Commands/Mediators throwing here would otherwise abort the whole
+                    // notification chain with an error that's hard to trace back to its
+                    // source. Log and keep going so the rest of the observers still run.
+                    try
+                    {
+                        observer.NotifyObserver(notification);
+                    }
+                    catch (Exception e)
+                    {
+                        UnityEngine.Debug.LogException(e);
+                    }
+#else
                     observer.NotifyObserver(notification);
+#endif
                 }
             }
 
