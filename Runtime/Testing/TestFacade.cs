@@ -67,12 +67,28 @@ namespace PureMVC.Testing
             sentNotifications.FirstOrDefault(n => n.Name == notificationName);
 
         /// <summary>
+        /// The most recently dispatched notification with the given name, or <c>null</c> if
+        /// none was sent.
+        /// </summary>
+        /// <param name="notificationName">The notification name to look for.</param>
+        public INotification? Last(string notificationName) =>
+            sentNotifications.LastOrDefault(n => n.Name == notificationName);
+
+        /// <summary>
         /// The body of the first dispatched notification with the given name, cast to
         /// <typeparamref name="T"/>, or <c>null</c> if no such notification was sent.
         /// </summary>
         /// <param name="notificationName">The notification name to look for.</param>
         public T? GetBody<T>(string notificationName) where T : class =>
             First(notificationName)?.Body as T;
+
+        /// <summary>
+        /// The body of the most recently dispatched notification with the given name, cast to
+        /// <typeparamref name="T"/>, or <c>null</c> if no such notification was sent.
+        /// </summary>
+        /// <param name="notificationName">The notification name to look for.</param>
+        public T? GetLastBody<T>(string notificationName) where T : class =>
+            Last(notificationName)?.Body as T;
 
         /// <summary>Removes this instance's Core (Model, View, Controller and Facade for its key).</summary>
         public void Dispose() => RemoveCore(key);

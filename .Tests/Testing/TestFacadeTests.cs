@@ -61,6 +61,46 @@ public class TestFacadeTests
     }
 
     [TestMethod]
+    public void Last_ReturnsTheMostRecentMatchingNotification()
+    {
+        // Arrange
+        using var facade = new TestFacade();
+
+        // Act
+        facade.SendNotification("Repeated", "first");
+        facade.SendNotification("Repeated", "second");
+
+        // Assert
+        var last = facade.Last("Repeated");
+        last.Should().NotBeNull();
+        last!.Body.Should().Be("second");
+    }
+
+    [TestMethod]
+    public void GetLastBody_ReturnsTheMostRecentMatchingBody()
+    {
+        // Arrange
+        using var facade = new TestFacade();
+
+        // Act
+        facade.SendNotification("Repeated", "first");
+        facade.SendNotification("Repeated", "second");
+
+        // Assert
+        facade.GetLastBody<string>("Repeated").Should().Be("second");
+    }
+
+    [TestMethod]
+    public void GetLastBody_ReturnsNull_WhenNotificationWasNotSent()
+    {
+        // Arrange
+        using var facade = new TestFacade();
+
+        // Act / Assert
+        facade.GetLastBody<string>("NeverSent").Should().BeNull();
+    }
+
+    [TestMethod]
     public void SentNotifications_RecordsEveryDispatchInOrder()
     {
         // Arrange
